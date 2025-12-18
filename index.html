@@ -1,5 +1,28 @@
+<script>
+  const params=new
+    URLSearchParams(window.location.search);
+  const artID=params.get("artid");
 
+  //1.Art ID is required
+  If (!artID)  {
+ document.body.innerHTML=
+   "<h2>access denied</h2><p> Valid Art ID
+   required.<p>";
+   throw new Error("Missing Art ID");
+  }
+  
+  //2. Lock key for this artwork
+  const lockKey = "Art_LOCK_"+artID;
 
+  //3. Block reuse
+  if (localStorage.getItem(lockKey)) {
+    document.body.innerHTML =
+      "<h2>Artwork already created</
+      h2><p>This art ID has been used.</p>";
+    throw new Error("Art ID already used")
+  }
+    </script>
+    
 <!DOCTYPE html>
 <html lang="en">
 <head>
