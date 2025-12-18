@@ -108,5 +108,16 @@
   generateArt();
 </script>
 
+  drawArtwork();
+  //lock this Art ID permanently
+  localStorage.setItem(lockKey, "used");
+
+  //disable button to prevent double click document.getItemByID("generate").disable
+  d = true;
+
+  //OPTIONAL: show Art ID on page
+  document.getElementByID("artid").innerText
+  = artID;
+  
 </body>
 </html>
