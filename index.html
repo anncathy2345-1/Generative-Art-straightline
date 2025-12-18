@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Offline Generative Line Art</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 20px;
+      background: #eee;
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+    canvas {
+      background: white;
+      border: 2px solid black;
+      display: block;
+      margin: 20px auto;
+    }
+    button {
+      padding: 10px 18px;
+      font-size: 15px;
+      margin: 5px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<h2>Generative Line Art — Offline Version</h2>
+
+<canvas id="canvas" width="800" height="800"></canvas>
+
+<button onclick="generateArt()">Generate</button>
+<button onclick="savePNG()">Save PNG</button>
+
+<script>
+  const canvas = document.getElementById("canvas");
+  const ctx = canvas.getContext("2d");
+
+  function random(seed) {
+    const x = Math.sin(seed) * 10000;
+    return x - Math.floor(x);
+  }
+
+  function generateArt(seed = Date.now()) {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = "#000";
+
+    let s = seed;
+    const lineCount = 350;
+
+    for (let i = 0; i < lineCount; i++) {
+      const x = random(s++) * canvas.width;
+      const y = random(s++) * canvas.height;
+
+      const angle = random(s++) * Math.PI * 2;
+      const length = 20 + random(s++) * 150;
+
+      ctx.beginPath();
+      ctx.moveTo(x, y);
+      ctx.lineTo(
+        x + Math.cos(angle) * length,
+        y + Math.sin(angle) * length
+      );
+      ctx.stroke();
+    }
+
+    window.currentSeed = seed;
+  }
+
+  function savePNG() {
+    const link = document.createElement("a");
+    link.download = `line-art-${window.currentSeed}.png`;
+    link.href = canvas.toDataURL("image/png");
+    link.click();
+  }
+
+  generateArt();
+</script>
+
+</body>
+</html>
