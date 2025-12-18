@@ -1,4 +1,30 @@
 <script>
+  // 1. Read Art ID from URL
+  const params=new
+    URLSearchParams(window.location.search);
+  const artID +params.get("artid");
+
+  //2. Block access if Art ID missing
+  if(!artID){
+    document.body.innerHTML ="<h2>Access
+      denied</h2><p>This Art ID required, </p>";
+      throw new Error("Missing Art ID");
+  }
+
+   //3. Lock key in localStorage
+    const lockKey = "ART_LOCK_"+ artID;
+
+  //4. Check if aready used
+  if (localStorage.getItem(lockKey)){
+    document.body.innerHTML ="<h2>Artwork
+      already created</h2></p>This Art ID has been
+      used.</p>";
+        throw new Error( "Art ID already used");
+  }
+    </script>
+
+      
+<script>
   const params=new
     URLSearchParams(window.location.search);
   const artID=params.get("artid");
